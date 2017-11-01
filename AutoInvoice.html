@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Automated Invoice</title>
+	<link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.css">
+	<script type="text/javascript" src="bootstrap/js/bootstrap.js"></script>
+	<script type="text/javascript" src="bootstrap/js/jquery-3.1.1.js"></script>
+	<style type="text/css">
+		table,th,input {
+			text-align: center;
+		}
+		#menu {
+			width: 100%;
+			height: 3em;
+			background-color: blue;
+		}
+		button{
+			border-radius: 20px;
+			width:80px;
+			height: 80px;
+		}
+		img {
+			width: 100%;
+			height: 700px;
+			position: absolute;
+			position: fixed;
+			z-index: -1;
+		}
+		input {
+			font-size: 1.2em;
+		}
+
+	</style>
+</head>
+<body>
+	<img src="images/smile.jpg">
+<div class="container">
+	<div id="menu"></div>
+	<div class="col-md-3">
+		<table class="table">
+			<tr>
+				<td>
+					<button id="delRow" style="background-color: red">Remove item</button>
+					<button id="checkOut" style="background-color: yellow">Check Out</button>
+					<button id="addRow" style="background-color: green">Add new item</button>
+				</td>
+			</tr>
+		</table>
+		<div id="Receipt">
+		<p>Receipt for Purchase</p>
+		</div>
+		
+	</div>
+	<div class="col-md-9">
+	<table class="table" id="table">
+		<thead>
+			<th>S/N</th>
+			<th>Description</th>
+			<th>Quantity</th>
+			<th>Amount/Unit</th>
+			<th>Total</th>
+		</thead>
+		<!-- <tr>
+			<td>1</td>
+			<td><input type="text"></td>
+			<td><input id="qty" type="text"></td>
+			<td><input id="amt" type="text"></td>
+			<td><input id="tot" type="text"></td>
+		</tr> -->
+		<tbody>
+			
+		</tbody>
+	</table>
+	</div>
+</div>
+
+		<script type="text/javascript">
+			var list =0;
+			$(document).ready(function(){
+				//addRow
+				$("#addRow").click(function(){
+					list++;
+					var pend = '<tr><td>'+list+'</td><td><input type="text"></td><td><input id="qty" type="text"></td><td><input id="amt" type="text"></td><td><input id="tot" type="text"></td></tr>'
+					$("#table").append(pend);
+				});
+				//delRow
+				$("#delRow").click(function(){
+					list--;
+					if (list>-1) {
+						$("#table tr").last().remove();
+					} else {
+						alert('All invoices have been removed. To continue shopping, please, add an invoice using the add item button');
+						list=0;
+					};
+					
+				});
+
+				//calculate
+				$("table#table tbody").on("keyup","#amt",function(){
+					var a = $(this).closest("tr").find("#amt").val();
+					var b = $(this).closest("tr").find("#qty").val();
+					var c = a*b;
+					$(this).closest("tr").find("#tot").val(c);
+				});
+				$("table#table tbody").on("keyup","#qty",function(){
+					var a = $(this).closest("tr").find("#amt").val();
+					var b = $(this).closest("tr").find("#qty").val();
+					var c = a*b;
+					$(this).closest("tr").find("#tot").val(c);
+				});
+			})
+		</script>
+</body>
+</html>
